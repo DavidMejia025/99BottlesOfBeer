@@ -107,5 +107,5 @@ class Round
 end
 
 bottles =  Bottles.new 
-puts 23
+puts 132 
 puts bottles.song
