@@ -9,8 +9,28 @@ number |  xxx
 And the winner is: "Container is meaningful, understandable, and unambiguous." Hell yeah :}.
 
 Another unencessary thing from the past refactor was the num of bottles method since it passes just the verse_num argument USELESS.
+This was true in the first place but since the number changed and turn into a string at some point abstract the number into a method
+was actually a good idea.
 
+for the refactor there is a procedure where you.
+detect what smells bad
+choose one single thing to improve so avoid one repeted word or abstract one beheavior.
+start by removing the common patter
+create a new method that will encapsulate the diference
+set a default value for the method
+try by adding one argument with default temporary value
+make the new method work for one case
+open the method to be able to work with other cases.
+add arguments to the sender
+test one method
+and finally test the complete method (refactor).
+
+Another alternative is to derive names from responsabilities: Phrase four is the final phrase of the song where the number gets decremented, and so the argument is always number-1 . It’s tempting, therefore, to think of "no more" and #{number-1} as representing
+the number of bottles that remain once a verse is complete."
+
+Unbelievably i didnt even noticed the No more... capitalization on the first line of the zero scenario :'(.
 )
+
 class Bottles
   def song
     verses(0,99)
@@ -26,36 +46,61 @@ class Bottles
     case verse_num
 
     when 0
-      "No more bottles of beer on the wall, " +
-      "no more bottles of beer.\n" +
-      "Go to the store and buy some more, " +
-      "99 bottles of beer on the wall.\n"
+      "#{container_num(number: verse_num).capitalize} #{verse_num} #{container(container:verse_num)} of beer on the wall.\n"+
+      "#{container_num(number: verse_num)} #{container(container:verse_num)} of beer. \n" +
+      "#{next_action(container: verse_num)}"+
+      "#{next_container_num(number: verse_num)} #{container(container:verse_num -1)} of beer on the wall.\n"
     else
-      "#{verse_num} #{bottles(bottles:verse_num)} of beer on the wall.\n" +
-      "#{verse_num} #{bottles(bottles:verse_num)} of beer. \n" +
-      "Take #{take_down(bottles: verse_num)} down and pass it around,\n " +
-      "#{last_bottle(bottles:verse_num)} of beer on the wall.\n"
+      "#{container_num(number: verse_num)} #{container(container:verse_num)} of beer on the wall.\n" +
+      "#{container_num(number: verse_num)} #{container(container:verse_num)} of beer. \n" +
+      "#{next_action(container: verse_num)}"+
+      "#{next_container_num(number: verse_num)} #{container(container:verse_num -1)} of beer on the wall.\n"
     end
   end
 
-  def last_bottle(bottles:)
-    if bottles == 1
-      empty(bottles: bottles)
+  def next_action(container: )
+    return "Go to the store and buy some more, \n" if container == 0
+    "Take #{pronoun(container: container)} down and pass it around,\n "
+  end
+
+
+  def container_num(number:)
+    return "no more" if number == 0
+
+    number
+  end
+
+  # books solution: remainder actually remainder was not a very good option because in the first line of the the song No more bottles is not a reminder is the current number of the verse.
+  # a new option is quantity.
+  #
+  def next_container_num(number:)
+    return 99 if number == 0
+
+    if number == 1
+      "no more"
     else
-      (number_of_bottles(bottles: bottles)-1).to_s
+      number-1
     end
   end
 
-  def bottles(bottles: )
-     bottles == 1 ? "bottle" : "bottles"
+  def last_bottle(container:)
+    if container == 1
+      empty(container: container)
+    else
+      (container-1).to_s
+    end
   end
 
-  def take_down(bottles: )
-    bottles == 1 ? "it" : "one"
+  def container(container: )
+     container == 1 ? "bottle" : "bottles"
   end
 
-  def empty(bottles:)
-    bottles == 1 ? "no more" : bottles.to_s
+  def pronoun(container: )
+    container == 1 ? "it" : "one"
+  end
+
+  def empty(container:)
+    container == 1 ? "no more" : container.to_s
   end
 end
 puts Bottles.new.song
